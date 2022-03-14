@@ -7,18 +7,18 @@ extern crate mio;
 extern crate log;
 
 use std::fmt;
-use std::sync::atomic::{AtomicU32, Ordering};
+use std::sync::atomic::{AtomicUsize, Ordering};
 
 pub mod channel;
 pub mod poll;
 pub mod queue;
 pub mod scheduler;
 
-static NEXT_NOTIFICATION_ID: AtomicU32 = AtomicU32::new(1);
+static NEXT_NOTIFICATION_ID: AtomicUsize = AtomicUsize::new(1);
 
 /// Used while sending notifications
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
-pub struct NotificationId(u32);
+pub struct NotificationId(pub usize);
 
 impl NotificationId {
     /// Generates the next `NotificationId`, which is guaranteed to be unique
@@ -28,7 +28,7 @@ impl NotificationId {
     }
 
     /// Returns id
-    pub fn id(&self) -> u32 {
+    pub fn id(&self) -> usize {
         self.0
     }
 }
